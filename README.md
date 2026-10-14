@@ -378,46 +378,7 @@ In your Instagram webhook settings:
 Your production webhook URL must be reachable over HTTPS.
 
 ## 13. Create an Instagram Privacy Policy
-
-A privacy policy explains what customer information your automation processes and how that information is handled.
-
-It should cover:
-
-- Who operates the automation.
-- What Instagram information is collected.
-- How messages and comments are used.
-- How DeepSeek processes conversation context.
-- How Google Sheets stores information.
-- Who can access the information.
-- How long information is retained.
-- How customers can request deletion.
-- How customers can contact the operator.
-
-### Host the Privacy Policy Using GitHub Pages
-
-1. Create a privacy policy page in your GitHub repository.
-2. Replace all sample names, emails, and retention details with accurate information.
-3. Open **Repository Settings → Pages**.
-4. Select **Deploy from a branch**.
-5. Select `main` and the appropriate folder.
-6. Save and wait for deployment.
-7. Open the public HTTPS URL and verify that it works without signing in.
-
-Example URL:
-
-```text
-https://YOUR_USERNAME.github.io/YOUR_REPOSITORY/privacy-policy.html
-```
-
-Then open:
-
-**Meta for Developers → App Settings → Basic**
-
-Paste the public URL into the **Privacy Policy URL** field.
-
-Also complete any required data-deletion instructions or callback configuration.
-
-A privacy policy template must be customized to your actual data practices and applicable legal requirements.
+(AlreAdy created index.html) .All details are given below at the end of The readme
 
 ## 14. Human Handoff System
 
@@ -542,3 +503,74 @@ This project is distributed under the MIT License. See the `LICENSE` file for de
 ---
 
 **InstaEngage AI — Automating Instagram conversations while keeping human support available when needed.**
+
+
+## Privacy Policy Setup — Required for Instagram API
+
+InstaEngage AI includes a customizable privacy policy template for developers who want to connect their own Instagram Professional account to the automation.
+
+### Step 1 — Open the Privacy Policy File
+
+Open the `index.html` file in this repository.
+
+### Step 2 — Replace the Placeholders
+
+| Placeholder | Replace With |
+|---|---|
+| `YOUR_BUSINESS_NAME` | Your business or Instagram brand name |
+| `YOUR_EMAIL@example.com` | Your working business email address |
+| `YOUR_EFFECTIVE_DATE` | The date your privacy policy takes effect |
+
+**Important:** Replace the email address in both locations: the `mailto:` link and the visible email text.
+
+Example:
+
+```html
+<a href="mailto:support@example.com">support@example.com</a>
+```
+
+Use an email address that can receive privacy questions and customer data-deletion requests.
+
+### Step 3 — Review the Privacy Policy
+
+Make sure the policy accurately describes your business's data collection, AI processing, storage, retention, security, and deletion practices.
+
+Do not publish inaccurate statements about how customer information is handled.
+
+### Step 4 — Publish Using GitHub Pages
+
+1. Open your GitHub repository.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, select **Deploy from a branch**.
+4. Select the `main` branch and `/ (root)` folder.
+5. Click **Save**.
+6. Wait for GitHub Pages to publish your website.
+
+Your privacy policy URL will generally follow this format:
+
+`https://YOUR_USERNAME.github.io/YOUR_REPOSITORY/`
+
+Open the URL to verify that the privacy policy is publicly accessible.
+
+### Step 5 — Add the URL to Meta for Developers
+
+1. Visit [Meta for Developers](https://developers.facebook.com/apps/).
+2. Open your Instagram application.
+3. Go to **App Settings → Basic**.
+4. Find **Privacy Policy URL**.
+5. Paste your published GitHub Pages URL.
+6. Save your changes.
+
+Complete any additional data-deletion instructions required by Meta.
+
+### Step 6 — Verify
+
+Confirm that:
+
+- Your privacy policy opens without requiring login.
+- Your business name is correct.
+- Your contact email is valid.
+- Your data-handling statements reflect your actual practices.
+- Your Meta application contains the correct privacy policy URL.
+
+**Note:** This template is provided for customization. Each developer is responsible for ensuring their privacy policy meets applicable legal and platform requirements.
