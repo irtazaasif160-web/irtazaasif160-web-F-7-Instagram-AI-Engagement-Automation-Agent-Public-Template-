@@ -311,9 +311,9 @@ Open n8n and import the JSON files from the `workflows` folder.
 Import these as two separate workflows:
 
 ```text
-InstaEngage_AI_GitHub_Sanitized.json
+F-7 Instagram AI Engagement & Automation Agent (Public Template).json
 
-Universal_Error_Handling_GitHub_Sanitized.json
+Universal Error Handling (Public template).json
 ```
 
 After importing:
@@ -524,9 +524,7 @@ InstaEngage-AI-Instagram-Automation/
 
 ## 19. Demo
 
-**Instagram Demo:** Add your published Instagram Reel URL here.
-
-**GitHub Repository:** Add your repository URL here.
+**Instagram Demo:** https://www.instagram.com/reel/Dec_JLxCx2l/?utm_source=ig_web_copy_link&obrf=MzRlODBiNWFlZA==&srtk=MzRlODBiNWFlZA==.
 
 ## 20. Official Documentation
 
