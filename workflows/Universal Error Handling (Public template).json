@@ -1,0 +1,244 @@
+{
+  "name": "Universal Error Handling",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -544
+      ],
+      "id": "df24673a-d8b4-4c3d-a99f-c8036a5252c7",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\n\nconst execution = input.execution || {};\nconst workflow = input.workflow || {};\nconst error = execution.error || input.error || {};\n\nconst statusCode =\n  error.httpCode ||\n  error.statusCode ||\n  error.status ||\n  error.response?.statusCode ||\n  null;\n\nlet category = 'UNEXPECTED_ERROR';\n\nif (statusCode === 401 || statusCode === 403) {\n  category = 'AUTH_ERROR';\n} else if (statusCode === 429) {\n  category = 'RATE_LIMIT';\n} else if (statusCode >= 500) {\n  category = 'SERVER_ERROR';\n} else if (statusCode >= 400) {\n  category = 'REQUEST_ERROR';\n} else if (\n  String(error.message || '').toLowerCase().includes('timeout')\n) {\n  category = 'TIMEOUT';\n}\n\nreturn [{\n  json: {\n    workflow_name: workflow.name || 'Unknown',\n    workflow_id: workflow.id || null,\n\n    execution_id: execution.id || null,\n    execution_url: execution.url || null,\n\n    failed_node: execution.lastNodeExecuted || 'Unknown',\n    node_type: error.node?.type || null,\n\n    error_message: error.message || 'Unknown error',\n    error_type: error.name || null,\n    error_category: category,\n    status_code: statusCode,\n\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        -544
+      ],
+      "id": "fb18f4a5-e734-480d-a175-1747e72a07b1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_SPREADSHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Log Error",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ DateTime.fromISO($json.timestamp).setZone('Asia/Karachi').toFormat('dd-MM-yyyy hh:mm:ss a') }}",
+            "error_category": "={{ $json.error_category}}",
+            "error_type": "={{ $json.error_type}}",
+            "error_message": "={{ $json.error_message}}",
+            "status_code": "={{ $json.status_code }}",
+            "node_type": "={{ $json.node_type}}",
+            "failed_node": "={{ $json.failed_node}}",
+            "execution_url": "={{ $json.execution_url}}",
+            "execution_id": "={{ $json.execution_id}}",
+            "workflow_id": "={{ $json.workflow_id}}",
+            "workflow_name": "={{ $json.workflow_name}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow_name",
+              "displayName": "workflow_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "workflow_id",
+              "displayName": "workflow_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_id",
+              "displayName": "execution_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "execution_url",
+              "displayName": "execution_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "failed_node",
+              "displayName": "failed_node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "node_type",
+              "displayName": "node_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error_message",
+              "displayName": "error_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error_type",
+              "displayName": "error_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "error_category",
+              "displayName": "error_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status_code",
+              "displayName": "status_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        -544
+      ],
+      "id": "9817b876-9678-4d2c-91be-13cb1971b234",
+      "name": "Append row in sheet"
+    },
+    {
+      "parameters": {
+        "sendTo": "YOUR_ADMIN_EMAIL@example.com",
+        "subject": "=🚨 n8n Error — {{ $json.workflow_name }}",
+        "message": "=🚨 n8n Workflow Error \nWorkflow: {{ $json.workflow_name }} \nFailed Node: {{ $json.failed_node }} \nError: {{ $json.error_message }}\nCategory: {{ $json.error_category }}\nStatus Code:  {{ $('Code in JavaScript').item.json.status_code }}\nTime: {{ $json.timestamp }}\nExecution: {{ $json.execution_url }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        -544
+      ],
+      "id": "865d0f4d-3a89-439c-b917-1bc6b2f99ecf",
+      "name": "Error Alert"
+    }
+  ],
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "tags": []
+}
